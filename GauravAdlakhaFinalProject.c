@@ -45,7 +45,7 @@ int A0, A1, A2, A3 = 0;
 int main (void)
 {
 	TimerOn();
-	TimerSet(100);
+	TimerSet(300);
 	
 	DDRA = 0x00; PORTA = 0xFF; // Buttons
 	DDRB = 0xFF; PORTB = 0x00; // LEDS
@@ -63,6 +63,10 @@ int main (void)
 	unsigned char lostFlag = 0;
 	unsigned char lvlArr[6] = {4, 5, 6, 7, 8, 9};
 	unsigned char incArraySize = 0;
+	unsigned char hexOne = 0x01;
+	unsigned char hexTwo = 0x02;
+	unsigned char hexFour = 0x04;
+	unsigned char hexEight = 0x08;
 	
 	while(1){
 		
@@ -79,36 +83,36 @@ int main (void)
 			
 		}
 		
-		else if ( gameStarted == 1 ) {
+		else if (gameStarted == 1) {
 			
-			if ( lvlArr[i] == 4 ) {
+			if (lvlArr[i] == 4) {
 				loopIteration = 0x04;
 			}
 			
-			else if ( lvlArr[i] == 5 ) {
+			else if (lvlArr[i] == 5) {
 				loopIteration = 0x05;
 			}
 			
-			else if ( lvlArr[i] == 6 ) {
+			else if (lvlArr[i] == 6) {
 				loopIteration = 0x06;
 			}
 			
-			else if ( lvlArr[i] == 7 ) {
+			else if (lvlArr[i] == 7) {
 				loopIteration = 0x07;
 			}
 			
-			else if ( lvlArr[i] == 8 ) {
+			else if (lvlArr[i] == 8) {
 				loopIteration = 0x08;
 			}
 			
-			else if ( lvlArr[i] == 9 ) {
+			else if (lvlArr[i] == 9) {
 				loopIteration = 0x09;
 			}
 			
 			unsigned char inputs[9]; //9 is max amount of iterations
 			unsigned char j = 0;
 
-			for ( j = 0; j < loopIteration; j++) {
+			for (j = 0; j < loopIteration; j++) {
 				r = rand() % 4;
 				while(!TimerFlag);
 				
@@ -118,27 +122,27 @@ int main (void)
 				while(!TimerFlag);
 				TimerFlag = 0;
 				
-				if ( r == 0 ) {
-					PORTB = 0x01;
-					inputs[j] = 0x01;
+				if (r == 0) {
+					PORTB = hexOne;
+					inputs[j] = hexOne;
 					incArraySize++;
 				}
 				
-				else if  ( r == 1 )  {
-					PORTB = 0x02;
-					inputs[j] = 0x02;
+				else if  (r == 1)  {
+					PORTB = hexTwo;
+					inputs[j] = hexTwo;
 					incArraySize++;
 				}
 				
-				else if ( r == 2 ) {
-					PORTB = 0x04;
-					inputs[j] = 0x04;
+				else if (r == 2) {
+					PORTB = hexFour;
+					inputs[j] = hexFour;
 					incArraySize++;
 				}
 				
-				else if ( r == 3 ) {
-					PORTB = 0x08;
-					inputs[j] = 0x08;
+				else if (r == 3) {
+					PORTB = hexEight;
+					inputs[j] = hexEight;
 					incArraySize++;
 				}
 				
@@ -152,7 +156,7 @@ int main (void)
 			
 			unsigned char userIn = 0;
 			unsigned char k = 0;
-			while( userIn == 0) {
+			while(userIn == 0) {
 				
 				A0 = ~PINA & 0x01;
 				A1 = ~PINA & 0x02;
@@ -161,42 +165,42 @@ int main (void)
 
 				PORTB = 0;
 				
-				if ( k < incArraySize ) {
+				if (k < incArraySize) {
 					
-					if ( A0 != 0x01 && A1 != 0x02 && A2 != 0x04 && A3 != 0x08) {
+					if (A0 != hexOne && A1 != hexTwo && A2 != hexFour && A3 != hexEight) {
 						continue;
 					}
 					
-					else if ( inputs[k] == 0x01 && A0 == 0x01 ) {
+					else if (inputs[k] == hexOne && A0 == hexOne) {
 						while(!TimerFlag);
 						TimerFlag = 0;
-						PORTB = 0x01;
+						PORTB = hexOne;
 					
 						k++;
 					}
 					
-					else if ( inputs[k] == 0x02 && A1 == 0x02 ) {
+					else if (inputs[k] == hexTwo && A1 == hexTwo) {
 						while(!TimerFlag);
 						TimerFlag = 0;
-						PORTB = 0x02;
-						
-						
-						k++;
-					}
-					
-					else if ( inputs[k] == 0x04 && A2 == 0x04 ) {
-						while(!TimerFlag);
-						TimerFlag = 0;
-						PORTB = 0x04;
+						PORTB = hexTwo;
 						
 						
 						k++;
 					}
 					
-					else if ( inputs[k] == 0x08 && A3 == 0x08 ) {
+					else if (inputs[k] == hexFour && A2 == hexFour) {
 						while(!TimerFlag);
 						TimerFlag = 0;
-						PORTB = 0x08;
+						PORTB = hexFour;
+						
+						
+						k++;
+					}
+					
+					else if ( inputs[k] == hexEight && A3 == hexEight) {
+						while(!TimerFlag);
+						TimerFlag = 0;
+						PORTB = hexEight;
 						
 						k++;
 					}
